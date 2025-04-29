@@ -696,4 +696,73 @@ If you still have no idea what just happened, try the following pages:
 * https://hashcat.net/faq/
 ```
 
+#### Hybrid Attack (from https://hashcat.net/wiki/doku.php?id=hybrid_attack)
+
+##### Decription
+
+Basically, the hybrid attack is just a Combinator attack. One side is simply a dictionary, the other is the result of a Brute-Force attack. In other words, the full Brute-Force keyspace is either appended or prepended to each of the words from the dictionary. That's why it's called “hybrid”.
+
+Alternatively you can use Mask attack or Rule-based attack to replace the Brute-Force side.
+
+##### Examples
+
+If your example.dict contains:
+
+```
+password
+hello
+```
+
+The configuration:
+
+```
+$ ... -a 6 example.dict ?d?d?d?d
+```
+
+generates the following password candidates:
+
+```
+password0000
+password0001
+password0002
+.
+.
+.
+password9999
+hello0000
+hello0001
+hello0002
+.
+.
+.
+hello9999
+```
+
+It also works on the opposite side!
+
+The configuration:
+
+```
+$ ... -a 7 ?d?d?d?d example.dict
+```
+
+generates the following password candidates:
+
+```
+0000password
+0001password
+0002password
+.
+.
+.
+9999password
+0000hello
+0001hello
+0002hello
+.
+.
+.
+9999hello
+```
+
 ### John
