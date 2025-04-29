@@ -1,8 +1,6 @@
-Here is a **detailed explanation with an example for each of the 10 attack vectors** shown in the SET (Social-Engineer Toolkit) menu from your screenshot:
+# Social-Engineer Toolkit (SET) Attack Vectors
 
----
-
- 1) Spear-Phishing Attack Vectors
+## 1) Spear-Phishing Attack Vectors
 **Purpose**: Send a crafted email with malicious attachments or links.
 
 **Example**:  
@@ -17,7 +15,7 @@ Send a Word document with embedded macro that connects back to your Kali machine
 
 ---
 
-2) Website Attack Vectors
+## 2) Website Attack Vectors
 **Purpose**: Clone legitimate websites to harvest credentials.
 
 **Example**:  
@@ -33,7 +31,7 @@ Clone the Facebook login page and capture usernames/passwords.
 
 ---
 
-3) Infectious Media Generator
+## 3) Infectious Media Generator
 **Purpose**: Create a USB payload to deliver malware.
 
 **Example**:  
@@ -47,7 +45,7 @@ Create a `.exe` file to put on a USB drive.
 
 ---
 
-4) Create a Payload and Listener
+## 4) Create a Payload and Listener
 **Purpose**: Generate a payload file and automatically set up a Metasploit listener.
 
 **Example**:  
@@ -62,7 +60,7 @@ Create a reverse shell `.exe` for Windows.
 
 ---
 
-5) Mass Mailer Attack
+## 5) Mass Mailer Attack
 **Purpose**: Send emails in bulk to targets using spoofed addresses.
 
 **Example**:  
@@ -75,11 +73,11 @@ Send an email that appears from `admin@paypal.com`.
 - Enter recipients (single or list).
 - Email is sent using your settings.
 
-note: Gmail blocks this now unless you configure less secure apps or SMTP manually.
+> **Note**: Gmail blocks this now unless you configure less secure apps or SMTP manually.
 
 ---
 
- 6) Arduino-Based Attack Vector
+## 6) Arduino-Based Attack Vector
 **Purpose**: Create payloads that mimic keystrokes (HID attacks).
 
 **Example**:  
@@ -93,7 +91,7 @@ Use an Arduino or DigiSpark to type a reverse shell payload.
 
 ---
 
-7) Wireless Access Point Attack Vector
+## 7) Wireless Access Point Attack Vector
 **Purpose**: Create a rogue Wi-Fi access point to capture data.
 
 **Example**:  
@@ -105,11 +103,11 @@ Set up a fake “Free Wi-Fi” access point.
 - Set SSID and credentials.
 - Victim connects → You can run MITM or credential harvester attacks.
 
-> Requires Wi-Fi adapter that supports monitor/AP mode.
+> **Requires** Wi-Fi adapter that supports monitor/AP mode.
 
 ---
 
-8) QRCode Generator Attack Vector
+## 8) QRCode Generator Attack Vector
 **Purpose**: Generate malicious QR codes.
 
 **Example**:  
@@ -123,7 +121,7 @@ Make a QR code that opens a fake login page when scanned.
 
 ---
 
-9) PowerShell Attack Vectors
+## 9) PowerShell Attack Vectors
 **Purpose**: Run PowerShell payloads that are obfuscated and AV-evading.
 
 **Example**:  
@@ -138,7 +136,7 @@ Create an alphanumeric shellcode injector for Windows.
 
 ---
 
-10) Third Party Modules
+## 10) Third Party Modules
 **Purpose**: Load custom or external exploit modules.
 
 **Example**:  
@@ -149,9 +147,6 @@ Load a custom phishing toolkit or automated phishing frameworks.
 - Add your module script to SET’s `modules` folder.
 - Use it like built-in SET options.
 
----
-
-Would you like me to generate a downloadable PDF or Markdown file version of this full guide?
 
 References:
 ```
