@@ -1,2 +1,2 @@
 # vapt-reference-mats
-For VAPT Finak Exam
+For VAPT Final Exam
