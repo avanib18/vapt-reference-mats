@@ -765,4 +765,220 @@ generates the following password candidates:
 9999hello
 ```
 
-### John
+### John the Ripper
+
+```
+To run John, you need to supply it with some password files and optionally specify a cracking mode, like this, using the default order of modes and assuming that "passwd" is a copy of your password file:
+
+
+	john passwd
+or, to restrict it to the wordlist mode only, but permitting the use of word mangling rules:
+
+
+	john --wordlist=password.lst --rules passwd
+Cracked passwords will be printed to the terminal and saved in the file called $JOHN/john.pot (in the documentation and in the configuration file for John, "$JOHN" refers to John's "home directory"; which directory it really is depends on how you installed John). The $JOHN/john.pot file is also used to not load password hashes that you already cracked when you run John the next time.
+
+To retrieve the cracked passwords, run:
+
+
+	john --show passwd
+While cracking, you can press any key for status, or 'q' or Ctrl-C to abort the session saving its state to a file ($JOHN/john.rec by default). If you press Ctrl-C for a second time before John had a chance to complete handling of your first Ctrl-C, John will abort immediately without saving. By default, the state is also saved every 10 minutes to permit for recovery in case of a crash.
+
+To continue an interrupted session, run:
+
+
+	john --restore
+```
+
+Other complicated options/usages include:
+
+```
+When invoked with no command line arguments, "john" prints its usage summary.
+
+The supported command line arguments are password file names and options. Many of the supported options accept additional arguments.
+
+You can list any number of password files right on the command line of "john". You do not have to specify any options. If valid password files are specified but no options are given, John will go through the default selection of cracking modes with their default settings.
+
+Options may be specified along with password files or on their own, although some require that password files be specified and some do not support operation on password files.
+
+All options are case sensitive, can be abbreviated as long as the abbreviations are unambiguous, can be prefixed with two dashes (GNU-style) or with one dash, and can use "=" or ":" to indicate an argument (if supported for a given option).
+
+The supported options are as follows, square brackets denote optional arguments:
+
+
+--single			"single crack" mode
+Enables the "single crack" mode, using rules from the configuration file section [List.Rules:Single].
+
+
+--wordlist=FILE			wordlist mode, read words from FILE,
+--stdin				or from stdin
+These are used to enable the wordlist mode.
+
+
+--rules				enable word mangling rules for wordlist mode
+Enables word mangling rules that are read from [List.Rules:Wordlist].
+
+
+--incremental[=MODE]		"incremental" mode [using section MODE]
+Enables the "incremental" mode, using the specified configuration file definition (section [Incremental:MODE]). If MODE is omitted, the default is "ASCII" for most hash types and "LM_ASCII" for LM hashes.
+
+
+--external=MODE			external mode or word filter
+Enables an external mode, using external functions defined in section [List.External:MODE].
+
+
+--stdout[=LENGTH]		just output candidate passwords
+When used with a cracking mode, except for "single crack", makes John output the candidate passwords it generates to stdout instead of actually trying them against password hashes; no password files may be specified when this option is used. If a LENGTH is given, John assumes that to be the significant password length and only produces passwords up to that length.
+
+
+--restore[=NAME]		restore an interrupted session
+Continues an interrupted cracking session, reading state information from the specified session file or from $JOHN/john.rec by default.
+
+
+--session=NAME			give a new session the NAME
+This option can only be used when starting a new cracking session and its purpose is to give the new session a name (to which John will append the ".rec" suffix to form the session file name). This is useful for running multiple instances of John in parallel or to be able to later recover a session other than the last one you interrupt.
+
+
+--status[=NAME]			print status of a session [called NAME]
+Prints status of an interrupted or running session. Note that on a Unix-like system, you can get a detached running session to update its session file by sending a SIGHUP to the appropriate "john" process; then use this option to read in and display the status.
+
+
+--make-charset=FILE		make a charset, overwriting FILE
+Generates a charset file based on character frequencies from $JOHN/john.pot, for use with the "incremental" mode. The entire $JOHN/john.pot will be used for the charset generation by default. You may restrict the set of passwords used by specifying some password files (in which case only the cracked passwords that correspond to those password files will be used), "--format", or/and "--external" (with an external mode that defines a filter() function).
+
+
+--show				show cracked passwords
+Shows the cracked passwords for given password files (which you must specify). You can use this option while another instance of John is cracking to see what John did so far; to get the most up to date information, first send a SIGHUP to the appropriate "john" process.
+
+
+--test[=TIME]			run tests and benchmarks for TIME seconds each
+Tests all of the compiled in hashing algorithms for proper operation and benchmarks them. The "--format" option can be used to restrict this to a specific algorithm.
+
+
+--users=[-]LOGIN|UID[,..]	[do not] load this (these) user(s)
+Allows you to select just a few accounts for cracking or for other operations. A dash before the list can be used to invert the check (that is, load information for all the accounts that are not listed).
+
+
+--groups=[-]GID[,..]		load users [not] of this (these) group(s)
+Tells John to load (or to not load) information for accounts in the specified group(s) only.
+
+
+--shells=[-]SHELL[,..]		load users with[out] this (these) shell(s)
+This option is useful to load accounts with a valid shell only or to not load accounts with a bad shell. You can omit the path before a shell name, so "--shells=csh" will match both "/bin/csh" and "/usr/bin/csh", while "--shells=/bin/csh" will only match "/bin/csh".
+
+
+--salts=[-]N			load salts with[out] at least N passwords
+This is a feature which allows to achieve better performance in some special cases. For example, you can crack only some salts using "--salts=2" faster and then crack the rest using "--salts=-2". Total cracking time will be about the same, but you will likely get some passwords cracked earlier.
+
+
+--save-memory=LEVEL		enable memory saving, at LEVEL 1..3
+You might need this option if you don't have enough memory or don't want John to affect other processes too much or don't need it to load and print login names along with cracked passwords. Level 1 tells John not to waste memory on login names; it is only supported when a cracking mode other than "single crack" is explicitly requested. It has no negative performance impact - in fact, it sometimes speeds things up. Please note that without the --save-memory=1 option (or higher), John will waste some memory on potential login names even if the password hash files don't happen to contain any login names. (The complete lack of login names isn't known to John when it starts parsing the files, so it has to record the fact that each individual entry doesn't have a login name unless you specify this option.) Levels 2 and 3 reduce use of performance optimizations involving large lookup tables, and thus have a negative performance impact. You should probably avoid using them unless John doesn't work or gets into swap otherwise.
+
+
+--node=MIN[-MAX]/TOTAL		this node's number range out of TOTAL count
+This option is intended to allow for some trivial manually-configured parallel and distributed processing. For example, to split the workload across two nodes (which could be machines, CPU cores, etc.), you'd specify "--node=1/2" on one invocation of John and "--node=2/2" on the other. (If you do this on just one machine and with the same build of John, you will also need to specify different "--session" names for the two simultaneous invocations.) The nodes are assumed to be same speed (if this is not the case, one will get ahead of the other and is likely to be done sooner, unless you're using a cracking mode and settings such that the session is not expected to ever "complete" - which is fine.) If your nodes are of very different speed, you may compensate for that by allocating ranges of node numbers to individual invocations. For example, if you use OpenMP-enabled builds of John on two machines, OpenMP is supported (with good scalability) for the hash type you're cracking, and one of the machines has twice more of similar speed CPU cores than the other, then you may use "--node=1-2/3" on the twice bigger machine (let it be nodes 1 and 2 out of 3 nodes total) and "--node=3/3" on the smaller one.
+
+Efficiency of this approach to parallel processing, as currently implemented, varies by cracking mode and its settings (efficiency is higher for incremental mode and for wordlist mode with many rules, and lower for other cracking modes and for wordlist mode without rules or with few rules), hash type (efficiency is higher for slower to compute hashes), salt count (efficiency is higher for higher salt counts), and node count (efficiency is higher for lower node counts). Scalability may be limited. The highest node count you can reasonably use varies by cracking mode, its settings, hash type, and salt count. With incremental mode, efficiency in terms of c/s rate is nearly perfect (there's essentially no overhead), but some nodes may currently receive too little work - and this problem is exacerbated by high node counts (such as 100 or more) and/or restrictive settings (such as MinLen and MaxLen set to the same value or to a narrow range, and/or a charset file with few characters being used). With wordlist mode, for high efficiency the rule count (after preprocessor expansion) needs to be many times higher than node count, unless the p/s rate is low anyway (due to slow hash type and/or high salt count).
+
+Since there's no communication between the nodes, hashes successfully cracked by one node continue being cracked by other nodes. This is mostly OK for saltless hash types or when there's just one salt (since the same number of hash computations is to be made anyway - namely, only one per candidate password tested), but it is a serious drawback when many different salts are present and their number could potentially be decreasing as some hashes get cracked.
+
+
+--fork=N			fork N processes
+This option is only available on Unix-like systems. It is an easy way to make use of multiple CPUs or CPU cores - you simply specify the number of John processes that you'd like to run. You may use "--fork" as an alternative to OpenMP, for formats currently lacking OpenMP support, or/and along with OpenMP (e.g., on a machine with 64 logical CPUs you might choose to run with "--fork=8" for 8 processes and use OpenMP to run 8 threads per process).
+
+You may use "--fork" along with "--node" to use multiple machines while also running multiple John processes per machine. For example, to use two similar 8-core machines you may run "--fork=8 --node=1-8/16" on one of the machines and "--fork=8 --node=9-16/16" on the other. For a more complicated example, if you have an 8-core machine and a 64-core machine with similar per-core performance, you could run an OpenMP-enabled build on both of them and use "--node=1/9" (without "--fork") on the first machine (8 threads in 1 process) and "--fork=8 --node=2-9/9" on the 64-core machine (8 threads in 8 processes, for 64 threads total on this machine). With the current implementation, the node numbers range assigned to each John invocation must match the "--fork" process count.
+
+When running with "--fork", multiple ".rec" files are created, which are then read back by "--status" and "--restore" if you use those options. Just like with other options, you must not specify "--fork" along with "--status" or "--restore", because these read the main (unnumbered) ".rec" file first, which contains the right "--fork" option in it, resulting in further (numbered) ".rec" files being read as appropriate.
+
+Under the hood, "--fork" makes use of the same functionality that "--node" does, so the same efficiency and scalability limitations apply. Despite of those, "--fork" is often much more efficient than OpenMP - especially for fast to compute hash types (such as LM hashes), where OpenMP overhead is often unacceptable.
+
+Similarly to "--node", there's almost no communication between the processes with "--fork". Hashes successfully cracked by one process continue being cracked by other processes. Just like with "--node", this is mostly OK for saltless hash types or when there's just one salt, but it is a serious drawback when many different salts are present and their number could potentially be decreasing as some hashes get cracked. To have the cracked hashes (and possibly salts) removed from all processes, you may interrupt and restore the session once in a while.
+
+
+--format=NAME			force hash type NAME
+Allows you to override the hash type detection. As of John the Ripper version 1.8.0, valid "format names" are descrypt, bsdicrypt, md5crypt, bcrypt, LM, AFS, tripcode, dummy, and crypt (and many more are added in jumbo). You can use this option when you're starting a cracking session or along with one of: "--test", "--show", "--make-charset". Note that John can't crack hashes of different types at the same time. If you happen to get a password file that uses more than one hash type, then you have to invoke John once for each hash type and you need to use this option to make John crack hashes of types other than the one it would autodetect by default.
+
+"--format=crypt" may or may not be supported in a given build of John. In default builds of John, this support is currently only included on Linux and Solaris. When specified (and supported), this option makes John use the system's crypt(3) or crypt_r(3) function. This may be needed to audit password hashes supported by the system, but not yet supported by John's own optimized cryptographic routines. Currently, this is the case for glibc 2.7+ SHA-crypt hashes as used by recent versions of Fedora and Ubuntu, and for SunMD5 hashes supported (but not used by default) on recent versions of Solaris. In fact, you do not have to explicitly specify "--format=crypt" for hashes of these specific types unless you have other hash types (those supported by John natively) in the password file(s) as well (in which case another hash type may get detected unless you specify this option).
+
+"--format=crypt" is also a way to make John crack crypt(3) hashes of different types at the same time, but doing so results in poor performance and in unnecessarily poor results (in terms of passwords cracked) for hashes of the "faster" types (as compared to the "slower" ones loaded for cracking at the same time). So you are advised to use separate invocations of John, one per hash type.
+```
+
+### Hydra
+
+```
+root@kali:~# hydra -h
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Syntax: hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x MIN:MAX:CHARSET] [-c TIME] [-ISOuvVd46] [-m MODULE_OPT] [service://server[:PORT][/OPT]]
+
+Options:
+  -R        restore a previous aborted/crashed session
+  -I        ignore an existing restore file (don't wait 10 seconds)
+  -S        perform an SSL connect
+  -s PORT   if the service is on a different default port, define it here
+  -l LOGIN or -L FILE  login with LOGIN name, or load several logins from FILE
+  -p PASS  or -P FILE  try password PASS, or load several passwords from FILE
+  -x MIN:MAX:CHARSET  password bruteforce generation, type "-x -h" to get help
+  -y        disable use of symbols in bruteforce, see above
+  -r        use a non-random shuffling method for option -x
+  -e nsr    try "n" null password, "s" login as pass and/or "r" reversed login
+  -u        loop around users, not passwords (effective! implied with -x)
+  -C FILE   colon separated "login:pass" format, instead of -L/-P options
+  -M FILE   list of servers to attack, one entry per line, ':' to specify port
+  -o FILE   write found login/password pairs to FILE instead of stdout
+  -b FORMAT specify the format for the -o FILE: text(default), json, jsonv1
+  -f / -F   exit when a login/pass pair is found (-M: -f per host, -F global)
+  -t TASKS  run TASKS number of connects in parallel per target (default: 16)
+  -T TASKS  run TASKS connects in parallel overall (for -M, default: 64)
+  -w / -W TIME  wait time for a response (32) / between connects per thread (0)
+  -c TIME   wait time per login attempt over all threads (enforces -t 1)
+  -4 / -6   use IPv4 (default) / IPv6 addresses (put always in [] also in -M)
+  -v / -V / -d  verbose mode / show login+pass for each attempt / debug mode 
+  -O        use old SSL v2 and v3
+  -K        do not redo failed attempts (good for -M mass scanning)
+  -q        do not print messages about connection errors
+  -U        service module usage details
+  -m OPT    options specific for a module, see -U output for information
+  -h        more command line options (COMPLETE HELP)
+  server    the target: DNS, IP or 192.168.0.0/24 (this OR the -M option)
+  service   the service to crack (see below for supported protocols)
+  OPT       some service modules support additional input (-U for module help)
+
+Supported services: adam6500 asterisk cisco cisco-enable cobaltstrike cvs firebird ftp[s] http[s]-{head|get|post} http[s]-{get|post}-form http-proxy http-proxy-urlenum icq imap[s] irc ldap2[s] ldap3[-{cram|digest}md5][s] memcached mongodb mssql mysql nntp oracle-listener oracle-sid pcanywhere pcnfs pop3[s] postgres radmin2 rdp redis rexec rlogin rpcap rsh rtsp s7-300 sip smb smtp[s] smtp-enum snmp socks5 ssh sshkey svn teamspeak telnet[s] vmauthd vnc xmpp
+
+Hydra is a tool to guess/crack valid login/password pairs.
+Licensed under AGPL v3.0. The newest version is always available at;
+https://github.com/vanhauser-thc/thc-hydra
+Please don't use in military or secret service organizations, or for illegal
+purposes. (This is a wish and non-binding - most such people do not care about
+laws and ethics anyway - and tell themselves they are one of the good ones.)
+These services were not compiled in: afp ncp oracle sapr3 smb2.
+
+Use HYDRA_PROXY_HTTP or HYDRA_PROXY environment variables for a proxy setup.
+E.g. % export HYDRA_PROXY=socks5://l:p@127.0.0.1:9150 (or: socks4:// connect://)
+     % export HYDRA_PROXY=connect_and_socks_proxylist.txt  (up to 64 entries)
+     % export HYDRA_PROXY_HTTP=http://login:pass@proxy:8080
+     % export HYDRA_PROXY_HTTP=proxylist.txt  (up to 64 entries)
+
+Examples:
+  hydra -l user -P passlist.txt ftp://192.168.0.1
+  hydra -L userlist.txt -p defaultpw imap://192.168.0.1/PLAIN
+  hydra -C defaults.txt -6 pop3s://[2001:db8::1]:143/TLS:DIGEST-MD5
+  hydra -l admin -p password ftp://[192.168.0.0/24]/
+  hydra -L logins.txt -P pws.txt -M targets.txt ssh
+```
+##### hydra Usage Example
+
+Attempt to login as the root user (-l root) using a password list (-P /usr/share/wordlists/metasploit/unix_passwords.txt) with 6 threads (-t 6) on the given SSH server (ssh://192.168.1.123):
+
+```
+root@kali:~# hydra -l root -P /usr/share/wordlists/metasploit/unix_passwords.txt -t 6 ssh://192.168.1.123
+Hydra v7.6 (c)2013 by van Hauser/THC & David Maciejak - for legal purposes only
+
+Hydra (http://www.thc.org/thc-hydra) starting at 2014-05-19 07:53:33
+[DATA] 6 tasks, 1 server, 1003 login tries (l:1/p:1003), ~167 tries per task
+[DATA] attacking service ssh on port 22
+
+```
+
+### Cain and Abel
