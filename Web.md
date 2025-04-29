@@ -5,6 +5,7 @@ References:
 https://portswigger.net/web-security/sql-injection
 https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/
 https://owasp.org/www-community/attacks/SQL_Injection
+https://www.geeksforgeeks.org/introduction-to-dirb-kali-linux/ (dirb details)
 ```
 
 Tables for Reference:
