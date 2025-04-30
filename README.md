@@ -16,3 +16,8 @@ https://youtu.be/QynUOJanNqo?si=S-24aBcBqHl_Ava3
 https://www.comparitech.com/net-admin/metasploit-cheat-sheet/
 
 https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Metasploit%20-%20Cheatsheet.md
+
+## Netcat details
+
+https://www.geeksforgeeks.org/practical-uses-of-ncnetcat-command-in-linux/
+
