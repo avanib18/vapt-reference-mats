@@ -17,6 +17,10 @@ https://www.comparitech.com/net-admin/metasploit-cheat-sheet/
 
 https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Metasploit%20-%20Cheatsheet.md
 
+https://www.offsec.com/metasploit-unleashed/
+
+https://medium.com/@ojovbo.nelson/metasploit-guide-for-beginners-part-1-5dc04aa6ac05
+
 ## Netcat details
 
 https://www.geeksforgeeks.org/practical-uses-of-ncnetcat-command-in-linux/
