@@ -21,3 +21,8 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20an
 
 https://www.geeksforgeeks.org/practical-uses-of-ncnetcat-command-in-linux/
 
+Random command to help find vulnerabilities:
+
+find / -perm -u=s -type f 2>/dev/null
+
+
