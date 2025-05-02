@@ -32,7 +32,8 @@ https://medium.com/@cuncis/the-ultimate-sqlmap-tutorial-master-sql-injection-and
 https://www.geeksforgeeks.org/practical-uses-of-ncnetcat-command-in-linux/
 
 Random command to help find vulnerabilities:
-find / -perm -u=s -type f 2>/dev/null
+
+`find / -perm -u=s -type f 2>/dev/null`
 
 After doing netcat for reverse shell, if python is present try this to get proper shell:
 
